@@ -66,22 +66,22 @@
         <activity
             android:name="nimoniks.handyman.activities.RegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name="nimoniks.handyman.activities.AboutActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name="nimoniks.handyman.activities.GPSDialogActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name="nimoniks.handyman.activities.SearchActivity"
-            android:theme="@android:style/Theme.Dialog"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name="nimoniks.handyman.activities.DashBoardActivity"

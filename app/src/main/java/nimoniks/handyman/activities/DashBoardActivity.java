@@ -71,7 +71,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators", "Gardeners", "Gas refills", "Generator repairers", "Hair dresser", "Makeup artist", "Mechanic", "Painter", "Panel beaters", "Phone repairer", "Printer", "Plumber", "Rental service", "Spare part dealers", "Shoemaker (Cobbler)", "Tailor", "Technician", "Vulcanizer", "Watch repairer", "Welder");
 ///    public static int handymenIcon[] = {R.drawable.air_condition, R.drawable.artist, R.drawable.barber, R.drawable.basket_weaver, R.drawable.bore_hole, R.drawable.brick_layer, R.drawable.camera_man, R.drawable.car_hire, R.drawable.car_wash, R.drawable.carpenter, R.drawable.caterer, R.drawable.cleaner, R.drawable.computer_repair, R.drawable.dish_installer, R.drawable.dj, R.drawable.dry_cleaner, R.drawable.electrician, R.drawable.fumigators, R.drawable.gardeners, R.drawable.gas_refill, R.drawable.generator, R.drawable.hair_dresser, R.drawable.makeup_artist, R.drawable.mechanic, R.drawable.painter, R.drawable.panel_beater, R.drawable.phone_repairer, R.drawable.printer, R.drawable.plumber, R.drawable.rental_services, R.drawable.spare_parts, R.drawable.shoe_maker, R.drawable.tailor, R.drawable.technician, R.drawable.vulcanizer, R.drawable.watch_repair, R.drawable.welder};
 
-//    public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators");
+    //    public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators");
 //    public static int handymenIcon[] = {R.drawable.air_condition, R.drawable.artist, R.drawable.barber, R.drawable.basket_weaver, R.drawable.bore_hole, R.drawable.brick_layer, R.drawable.camera_man, R.drawable.car_hire, R.drawable.car_wash, R.drawable.carpenter, R.drawable.caterer, R.drawable.cleaner, R.drawable.computer_repair, R.drawable.dish_installer, R.drawable.dj, R.drawable.dry_cleaner, R.drawable.electrician, R.drawable.fumigators};
     private TextView spaceView;
 
@@ -430,7 +430,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 //                    ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-                    startActivity(new Intent(DASHBOARD, AboutActivity.class));
+//                    startActivity(new Intent(DASHBOARD, AboutActivity.class));
                     return false;
                 }
             });
@@ -464,7 +464,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public boolean onMarkerClick(Marker marker) {
 //                ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-                startActivity(new Intent(DASHBOARD, AboutActivity.class));
+//                startActivity(new Intent(DASHBOARD, AboutActivity.class));
                 return false;
             }
         });
@@ -513,6 +513,8 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         ll_about.setVisibility(View.GONE);
         ll_profile.setVisibility(View.VISIBLE);
         profile.setBackgroundResource(R.color.hm_yellow);
+
+        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
     }
 
     void aboutActivity() {
