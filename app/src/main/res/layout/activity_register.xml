@@ -9,8 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@mipmap/ic_close_white_48dp"
-        android:visibility="visible" />
+        android:drawableRight="@mipmap/ic_close_white_48dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
