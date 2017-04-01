@@ -52,7 +52,7 @@ public class RegisterActivity extends Activity {
             }
         });
 
-        close_registration = (TextView) findViewById(R.id.close_registration);
+        close_registration = (TextView) findViewById(R.id.exit_registration);
         close_registration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
