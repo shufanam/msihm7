@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/hm_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="25dip"
+        android:gravity="center"
+        android:text="Please enable GPS for a better User Experience, Thank you     : )"
+        android:textColor="@color/white"
+        android:textSize="20dip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dip"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/gps_sett_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_"
+            android:text="Enable"
+            android:layout_margin="15dp"
+            android:textColor="@color/hm_yellow" />
+
+        <Button
+            android:id="@+id/gps_cancel_button"
+            android:layout_width="130dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button__"
+            android:text="Cancel "
+            android:textColor="@color/orangered"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

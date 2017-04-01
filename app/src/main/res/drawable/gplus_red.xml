@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <item android:layout_width="wrap_content" android:layout_height="wrap_content" android:shape="rectangle" android:state_pressed="true">
+
+        <shape android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+            <!--<corners android:layout_width="wrap_content" android:layout_height="wrap_content" android:radius="22dp" />-->
+
+            <solid android:layout_width="wrap_content" android:layout_height="wrap_content" android:color="@color/hm_yellow" />
+
+
+        </shape>
+    </item>
+
+    <item android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+        <shape android:layout_width="wrap_content" android:layout_height="wrap_content" android:shape="rectangle">
+
+            <!--<corners android:layout_width="wrap_content" android:layout_height="wrap_content" android:radius="22dp" />-->
+            <solid android:layout_width="wrap_content" android:layout_height="wrap_content" android:color="#ec5300" />
+        </shape>
+    </item>
+
+</selector>

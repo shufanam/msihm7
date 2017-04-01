@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/menu_banner"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:drawableTop="@mipmap/search_hilite"
+        android:text="Search"
+        android:textColor="@color/hm_yellow"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/favorites"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:drawableTop="@mipmap/favorites"
+        android:text="Favorites"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/portfolio"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:drawableTop="@mipmap/portfolio"
+        android:text="Port folio"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="3dp"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:drawableTop="@mipmap/profile"
+        android:text="Profile"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:layout_margin="3dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@color/hm_yellow"-->
+    <!--android:text="Profile"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="15dp"-->
+    <!--android:textStyle="bold" />-->
+
+</LinearLayout>
