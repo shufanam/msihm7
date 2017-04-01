@@ -7,8 +7,10 @@ import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import nimoniks.handyman.smartlogin.R;
+import nimoniks.handyman.utilities.HeadersUtil;
 import nimoniks.handyman.utilities.SessionUtil;
 
 public class RegisterActivity extends Activity {
@@ -16,10 +18,12 @@ public class RegisterActivity extends Activity {
     public static Activity REGISTER_ACTIVITY;
     Handler handler;
     private SessionUtil sessionUtil;
+    private TextView close_registration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        HeadersUtil.removeNotifBar(this);
 
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
@@ -44,7 +48,15 @@ public class RegisterActivity extends Activity {
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDashboard();
+
+            }
+        });
+
+        close_registration = (TextView) findViewById(R.id.close_registration);
+        close_registration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -58,7 +70,5 @@ public class RegisterActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }
