@@ -8,13 +8,21 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import nimoniks.handyman.HandyManApplication;
 import nimoniks.handyman.smartlogin.R;
 import nimoniks.handyman.utilities.SessionUtil;
+import nimoniks.handyman.webservice.HandyManService;
+import nimoniks.handyman.webservice.webServiceResponseObjects.RegistrationResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class RegisterActivity extends Activity {
 
     public static Activity REGISTER_ACTIVITY;
     Handler handler;
+    Retrofit retrofit;
     private SessionUtil sessionUtil;
 
     @Override
@@ -32,6 +40,8 @@ public class RegisterActivity extends Activity {
         handler = new Handler();
         initView();
         hideKeyBoard();
+
+        makeRegistrationRequest();
     }
 
     void hideKeyBoard() {
@@ -60,5 +70,26 @@ public class RegisterActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    public void makeRegistrationRequest(){
+        retrofit = HandyManApplication.getInstance().getRetrofit();
+        HandyManService service =  retrofit.create(HandyManService.class);
+
+        Call<RegistrationResponse> registrationResponseCall = service.postRegistration("firstname", "lastname", "09043333333", "lagos", "asdff@dfg.f", "wwwwww", "wwwwww");
+        registrationResponseCall.enqueue(new Callback<RegistrationResponse>() {
+            @Override
+            public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
+                String responses = response.body().toString();
+                String responsess = response.message();
+
+            }
+
+            @Override
+            public void onFailure(Call<RegistrationResponse> call, Throwable t) {
+                String error = t.getMessage();
+
+            }
+        });
     }
 }

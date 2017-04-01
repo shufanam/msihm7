@@ -14,15 +14,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HandyManApplication extends Application {
 
     Retrofit retrofit;
+    private static HandyManApplication sInstance;
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
+
 
          retrofit = new Retrofit.Builder()
                 .baseUrl("http://handym.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+    }
+
+    // Returns the active application instance
+    public static HandyManApplication getInstance() {
+        return sInstance;
     }
 
     public Retrofit getRetrofit() {
