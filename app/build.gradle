@@ -24,6 +24,9 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 //    compile 'com.google.android.gms:play-services-auth:8.4.0'
     //Support libraries
     compile 'com.android.support:appcompat-v7:23.0.1'
@@ -36,6 +39,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.github.Mariovc:ImagePicker:1.0.5'//https://github.com/Mariovc/ImagePicker
 }
 
