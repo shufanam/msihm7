@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity {
         retrofit = HandyManApplication.getInstance().getRetrofit();
         HandyManService service =  retrofit.create(HandyManService.class);
 
-        Call<RegistrationResponse> registrationResponseCall = service.postRegistration("firstname", "lastname", "09043333333", "lagos", "asdff@dfg.f", "wwwwww", "wwwwww");
+        Call<RegistrationResponse> registrationResponseCall = service.postRegistration("firstname", "lastname", "09043333333", "lagos", "asdfdfdff@dfg.f", "wwwwww", "wwwwww");
         registrationResponseCall.enqueue(new Callback<RegistrationResponse>() {
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
