@@ -55,6 +55,7 @@
                         android:drawableLeft="@mipmap/search_hilite"
                         android:drawablePadding="22dp"
                         android:hint="Find ..."
+                        android:imeOptions="actionSearch"
                         android:inputType="textAutoCorrect|textCapWords|textCapSentences|textCapCharacters"
                         android:paddingLeft="10dp"
                         android:singleLine="true"
@@ -393,7 +394,7 @@
                         android:scrollbarThumbVertical="@color/grey">
 
                         <LinearLayout
-                            android:id="@+id/ll_portfolio_list"
+                            android:id="@+id/ll_skills_list"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="20dp"

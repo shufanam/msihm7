@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/hm_bg2"
+    android:background="@color/hm_bg"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -20,7 +20,6 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible">
-
 
         <TextView
             android:layout_width="match_parent"
@@ -161,7 +160,6 @@
         android:id="@+id/signup_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:background="@color/hm_yellow"
         android:paddingRight="5dp"
