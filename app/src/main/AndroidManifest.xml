@@ -67,9 +67,7 @@
         <activity
             android:name="nimoniks.handyman.activities.RegisterActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" >
-            
-            </activity>
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name="nimoniks.handyman.activities.AboutActivity"

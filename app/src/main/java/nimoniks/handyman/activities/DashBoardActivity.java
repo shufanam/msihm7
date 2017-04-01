@@ -430,7 +430,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 //                    ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-//                    startActivity(new Intent(DASHBOARD, AboutActivity.class));
+                    startActivity(new Intent(DASHBOARD, RegisterActivity.class));
                     return false;
                 }
             });
@@ -464,7 +464,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public boolean onMarkerClick(Marker marker) {
 //                ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-//                startActivity(new Intent(DASHBOARD, AboutActivity.class));
+                startActivity(new Intent(DASHBOARD, RegisterActivity.class));
                 return false;
             }
         });
@@ -508,13 +508,14 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     void profile() {
+
+//        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
+
         ll_map.setVisibility(View.GONE);
         ll_favorites.setVisibility(View.GONE);
         ll_about.setVisibility(View.GONE);
         ll_profile.setVisibility(View.VISIBLE);
         profile.setBackgroundResource(R.color.hm_yellow);
-
-        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
     }
 
     void aboutActivity() {
