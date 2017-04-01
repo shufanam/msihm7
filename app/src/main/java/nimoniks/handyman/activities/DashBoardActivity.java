@@ -47,7 +47,6 @@ import nimoniks.handyman.utilities.StringManagerUtil;
 import com.mvc.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     //    Button portfolio;
     Button about;
     LinearLayout ll_map, ll_favorites, ll_about, ll_profile, ll_search_bg;
-    LinearLayout ll_portfolio_list;
+    LinearLayout ll_skills_list;
     CircleImageView user_image;
     private byte[] byteArray;
 
@@ -74,6 +73,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     //    public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators");
 //    public static int handymenIcon[] = {R.drawable.air_condition, R.drawable.artist, R.drawable.barber, R.drawable.basket_weaver, R.drawable.bore_hole, R.drawable.brick_layer, R.drawable.camera_man, R.drawable.car_hire, R.drawable.car_wash, R.drawable.carpenter, R.drawable.caterer, R.drawable.cleaner, R.drawable.computer_repair, R.drawable.dish_installer, R.drawable.dj, R.drawable.dry_cleaner, R.drawable.electrician, R.drawable.fumigators};
     private TextView spaceView;
+    private TextView tv_edit_details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         initMenuBar();
         initMap();
         search();
-        initProfile();
+        initProfileSkills();
     }
 
     @Override
@@ -125,22 +125,27 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         user_image.setOnClickListener(onClick);
 
         ll_map = (LinearLayout) findViewById(R.id.ll_map);
-        ll_favorites = (LinearLayout) findViewById(R.id.ll_favorite);
         findHMWrapper = (TextInputLayout) findViewById(R.id.findHMWrapper);
+        tv_dropdown_handyman = (ImageView) findViewById(R.id.tv_dropdown_handyman);
+        tv_dropdown_handyman.setOnClickListener(onClick);
+
+        ll_favorites = (LinearLayout) findViewById(R.id.ll_favorite);
+
         ll_search_bg = (LinearLayout) findViewById(R.id.ll_search_bg);
+
         ll_profile = (LinearLayout) findViewById(R.id.ll_profile);
+        initProfile();
+
         ll_about = (LinearLayout) findViewById(R.id.ll_about);
         TextView aboutVersion = (TextView) findViewById(R.id.about_version);
         aboutVersion.setText(aboutVersion.getText() + getSoftwareVersion());
 
-        tv_dropdown_handyman = (ImageView) findViewById(R.id.tv_dropdown_handyman);
-        tv_dropdown_handyman.setOnClickListener(onClick);
 
         //FRAGMENT LISTS
-        ll_portfolio_list = (LinearLayout) findViewById(R.id.ll_portfolio_list);
+        ll_skills_list = (LinearLayout) findViewById(R.id.ll_skills_list);
 
-        System.out.println("++++++++++++++++++++++++++++++++ Handymen: " + handymen.size());
-        System.out.println("++++++++++++++++++++++++++++++++ Handymen Icons: " + handymen.size());
+//        System.out.println("++++++++++++++++++++++++++++++++ Handymen: " + handymen.size());
+//        System.out.println("++++++++++++++++++++++++++++++++ Handymen Icons: " + handymen.size());
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -197,14 +202,24 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         ImagePicker.setMinQuality(250, 250);
     }
 
+    void initProfile() {
+        tv_edit_details = (TextView) findViewById(R.id.tv_edit_details);
+        tv_edit_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSignup();
+            }
+        });
+    }
+
     //
     View profile_item;
 
-    void initProfile() {
+    void initProfileSkills() {
         Drawable icon = getResources().getDrawable(R.drawable.electrician);
         Drawable icon2 = getResources().getDrawable(R.drawable.plumber);
 
-        ll_portfolio_list.removeAllViews();
+        ll_skills_list.removeAllViews();
         try {
             for (int i = 0; i < 2; i++) {
 
@@ -244,8 +259,8 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
 
                 //ROOT HOLDER
                 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                ll_portfolio_list.addView(profile_item);
-                ll_portfolio_list.addView(spaceView);
+                ll_skills_list.addView(profile_item);
+                ll_skills_list.addView(spaceView);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -430,7 +445,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 //                    ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-                    startActivity(new Intent(DASHBOARD, RegisterActivity.class));
+//                    startActivity(new Intent(DASHBOARD, RegisterActivity.class));
                     return false;
                 }
             });
@@ -464,7 +479,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public boolean onMarkerClick(Marker marker) {
 //                ToastUtil.makeToast(marker.getTitle(), DASHBOARD);
-                startActivity(new Intent(DASHBOARD, RegisterActivity.class));
+//                startActivity(new Intent(DASHBOARD, RegisterActivity.class));
                 return false;
             }
         });
@@ -476,6 +491,10 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
 
         // Zoom in, animating the camera.
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 7000, null);
+    }
+
+    void launchSignup() {
+        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
     }
 
     Button buffer;
