@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="hm_bg">#362c2c</color>
-    <color name="hm_bg2">#eaeaea</color>
-    <color name="hm_bg3">#a09c9c</color>
 
+    <color name="hm_grey">#7f7f7f</color>
     <color name="hm_yellow">#f7bd14</color>
 
     <color name="mtn">#ffbe00</color>

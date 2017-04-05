@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:background="@color/hm_bg"
+    android:background="@color/hm_grey"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -148,7 +148,7 @@
         android:id="@+id/ll_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/hm_bg"
+        android:background="@color/hm_grey"
         android:orientation="vertical"
         android:visibility="gone">
 

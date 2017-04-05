@@ -5,7 +5,7 @@
     android:name="nimoniks.handyman.activities.DashBoardActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hm_bg"
+    android:background="@color/hm_grey"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"

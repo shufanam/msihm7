@@ -4,9 +4,9 @@
     android:id="@+id/fragment_portfolio"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/hm_bg"
+    android:layout_marginBottom="22dp"
+    android:layout_marginLeft="5dp"
     android:layout_marginTop="10dp"
-    android:backgroundTint="#41393a"
     android:elevation="22dp"
     android:gravity="center"
     android:orientation="vertical">
@@ -23,8 +23,8 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
                 android:layout_gravity="center"
                 android:layout_margin="3dp"
                 android:background="@drawable/profile_grey"
@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:background="@color/hm_yellow"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:gravity="left"
                 android:text="Shoemaker"
                 android:textColor="@color/hm_yellow"
-                android:textSize="15dp"
+                android:textSize="17dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:drawablePadding="15dp"
                 android:gravity="left"
-                android:text="Time: Mon - Fri (6am - 7pm)"
+                android:text="Mon - Fri (6am - 7pm)"
                 android:textColor="@color/white"
                 android:textSize="14dp" />
 
@@ -80,7 +80,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:src="@mipmap/phone_large" />
 
                 <!--Phone/SMS-->
@@ -114,4 +114,10 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:background="@color/hm_yellow"
+        android:visibility="visible" />
 </LinearLayout>

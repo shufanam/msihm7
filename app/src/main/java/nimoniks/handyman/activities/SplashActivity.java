@@ -7,17 +7,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import nimoniks.handyman.smartlogin.R;
 import nimoniks.handyman.utilities.SessionUtil;
 
-public class SplashActivity extends Activity {
+public class SplashActivity extends FragmentActivity {
 
     public static Activity SPLASH_ACTIVITY;
     protected boolean _active = true;
-    protected int _splashTime = 1100;
+    protected int _splashTime = 2200;
     String version;
     Handler handler;
     private SessionUtil sessionUtil;
@@ -41,14 +42,14 @@ public class SplashActivity extends Activity {
         version = getSoftwareVersion();
 //        tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
 
-        tv_continue = (TextView) findViewById(R.id.tv_continue);
-        tv_continue.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dashboard();
-            }
-        });
+//        tv_continue = (TextView) findViewById(R.id.tv_continue);
+//        tv_continue.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+//        tv_continue.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dashboard();
+//            }
+//        });
 
         // thread for displaying the SplashScreen
         Thread splashTread = new Thread() {
@@ -63,14 +64,14 @@ public class SplashActivity extends Activity {
                         }
                     }
 
-                    Thread.sleep(1100);
-
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            tv_continue.setVisibility(View.VISIBLE);
-                        }
-                    });
+//                    Thread.sleep(1100);
+//
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            tv_continue.setVisibility(View.VISIBLE);
+//                        }
+//                    });
 
                 } catch (InterruptedException e) {
                     // do nothing
@@ -79,6 +80,7 @@ public class SplashActivity extends Activity {
 //                    DB.startServer();
 
                     sessionUtil.setAppVersion(version);
+                    dashboard();
                 }
             }
         };

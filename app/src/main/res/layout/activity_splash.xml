@@ -1,38 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TableLayout1"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@mipmap/hm_bg2"
-    android:gravity="center" >
+    android:gravity="center">
 
-    <ImageView
-        android:id="@+id/textView2"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:src="@mipmap/logo"
-        android:adjustViewBounds="true"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/tv_continue"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center|bottom"
-        android:padding="33dp"
-        android:text="Continue >>"
-        android:visibility="invisible"
-        android:textColor="@color/hm_yellow"
-        android:textSize="22dp"
-        android:layout_marginTop="33dp"
-        android:textStyle="italic|bold" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:gravity="center" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <!--android:src="@drawable/floating_icons"-->
+            <fragment
+                android:id="@+id/map5"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="nimoniks.handyman.activities.DashBoardActivity" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="50dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/textView2"
+                    android:layout_width="270dp"
+                    android:layout_height="200dp"
+                    android:adjustViewBounds="true"
+                    android:gravity="center"
+                    android:src="@mipmap/logo" />
+
+                <TextView
+                    android:id="@+id/tv_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="33dp"
+                    android:gravity="center|bottom"
+                    android:padding="33dp"
+                    android:text="Continue >>"
+                    android:textColor="@color/hm_yellow"
+                    android:textSize="22dp"
+                    android:textStyle="italic|bold"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </TableLayout>

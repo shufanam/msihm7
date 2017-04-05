@@ -33,7 +33,7 @@ public class SignInActivity extends Activity {
 
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.fragment_signin);
 
         SIGNIN_ACTIVITY = this;
 

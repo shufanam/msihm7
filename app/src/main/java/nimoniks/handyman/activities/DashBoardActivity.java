@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentActivity;
@@ -23,10 +25,12 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,17 +42,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import nimoniks.handyman.HandyManWebServices;
 import nimoniks.handyman.smartlogin.R;
 import nimoniks.handyman.utilities.Base64;
 import nimoniks.handyman.utilities.KeyboardUtil;
 import nimoniks.handyman.utilities.LoggerUtil;
 import nimoniks.handyman.utilities.StringManagerUtil;
+import nimoniks.handyman.webservice.HandyManService;
+import retrofit2.Retrofit;
 
 import com.mvc.imagepicker.ImagePicker;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
-import java.util.List;
 
 import static android.view.View.inflate;
 
@@ -58,101 +63,200 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     Button search;
     Button favorites;
     Button profile;
-    //    Button portfolio;
     Button about;
-    LinearLayout ll_map, ll_favorites, ll_about, ll_profile, ll_search_bg;
+    LinearLayout ll_map, ll_favorites, ll_about, ll_profile, ll_search_bg, ll_dashboard_menu, ll_splash;
     LinearLayout ll_skills_list;
-    CircleImageView user_image;
+    CircleImageView iv_user_image;
     private byte[] byteArray;
 
     public static Activity DASHBOARD;
 
-    public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators", "Gardeners", "Gas refills", "Generator repairers", "Hair dresser", "Makeup artist", "Mechanic", "Painter", "Panel beaters", "Phone repairer", "Printer", "Plumber", "Rental service", "Spare part dealers", "Shoemaker (Cobbler)", "Tailor", "Technician", "Vulcanizer", "Watch repairer", "Welder");
-///    public static int handymenIcon[] = {R.drawable.air_condition, R.drawable.artist, R.drawable.barber, R.drawable.basket_weaver, R.drawable.bore_hole, R.drawable.brick_layer, R.drawable.camera_man, R.drawable.car_hire, R.drawable.car_wash, R.drawable.carpenter, R.drawable.caterer, R.drawable.cleaner, R.drawable.computer_repair, R.drawable.dish_installer, R.drawable.dj, R.drawable.dry_cleaner, R.drawable.electrician, R.drawable.fumigators, R.drawable.gardeners, R.drawable.gas_refill, R.drawable.generator, R.drawable.hair_dresser, R.drawable.makeup_artist, R.drawable.mechanic, R.drawable.painter, R.drawable.panel_beater, R.drawable.phone_repairer, R.drawable.printer, R.drawable.plumber, R.drawable.rental_services, R.drawable.spare_parts, R.drawable.shoe_maker, R.drawable.tailor, R.drawable.technician, R.drawable.vulcanizer, R.drawable.watch_repair, R.drawable.welder};
-
-    //    public List<String> handymen = Arrays.asList("A/C Repairer", "Artists", "Barber", "Basket weaver", "Borehole expert", "Bricklayer", "Camera man/Videographer", "Car hire service", "Car Wash", "Carpenter", "Caterer/Chef", "Cleaning Services", "Computer repairs", "Dish installer", "DJ/Sound experts", "Dry Cleaner", "Electrician", "Fumigators");
-//    public static int handymenIcon[] = {R.drawable.air_condition, R.drawable.artist, R.drawable.barber, R.drawable.basket_weaver, R.drawable.bore_hole, R.drawable.brick_layer, R.drawable.camera_man, R.drawable.car_hire, R.drawable.car_wash, R.drawable.carpenter, R.drawable.caterer, R.drawable.cleaner, R.drawable.computer_repair, R.drawable.dish_installer, R.drawable.dj, R.drawable.dry_cleaner, R.drawable.electrician, R.drawable.fumigators};
     private TextView spaceView;
     private TextView tv_edit_details;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
-        DASHBOARD = this;
-
-        initFragments();
-        initMenuBar();
-        initMap();
-        search();
-        initProfileSkills();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
-
-        if (bitmap != null) {
-//            processCameraImage(bitmap);
-            user_image.setImageBitmap(bitmap);
-        }
-    }
-
-    private void processCameraImage(Bitmap photo) {
-
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byteArray = byteArrayOutputStream.toByteArray();
-
-        String image = Base64.encodeBytes(byteArray);
-    }
-
-    public void onPickImage(View view) {
-        // Click on image button
-        ImagePicker.pickImage(this, "Select your image:");
-    }
-
+    Retrofit retrofit;
+    HandyManService service;
     TextInputLayout findHMWrapper;
 
     MultiAutoCompleteTextView findHMEditText;
     ImageView tv_dropdown_handyman, iv_menu, iv_menu1, iv_menu2;
 
-    private void initFragments() {
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+    LinearLayout fragment_profile_details;
+    View fragment_signin, fragment_register;
+    View profile_item;
+    View profileDetailsView = null;
+    ScrollView sv_signin;
+    EditText emailPhoneEditText;
+    Button signup_button;
+    Handler handler;
 
-        user_image = (CircleImageView) findViewById(R.id.user_image);
-        user_image.setOnClickListener(onClick);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
+        setContentView(R.layout.activity_dashboard);
+        DASHBOARD = this;
+        retrofit = HandyManWebServices.getInstance().getRetrofit();
+        service = retrofit.create(HandyManService.class);
+        handler = new Handler();
+
+        initDashBoard();
+    }
+
+    //        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//            }
+//        });
+    private void initDashBoard() {
+
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initSplash();
+                initSearchFragment();
+                initFavoriteFragment();
+                initProfileFragment();
+                initAboutFragment();
+                initMenuBar();
+
+                handler.post(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        search();
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void initSplash() {
+        ll_splash = (LinearLayout) findViewById(R.id.ll_splash);
+
+        try {
+            Thread.sleep(2200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ll_splash.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void initAboutFragment() {
+        ll_about = (LinearLayout) findViewById(R.id.ll_about);
+        TextView aboutVersion = (TextView) findViewById(R.id.about_version);
+        aboutVersion.setText(aboutVersion.getText() + getSoftwareVersion());
+    }
+
+    private void initProfileFragment() {
+        ll_profile = (LinearLayout) findViewById(R.id.ll_profile);
+
+        sv_signin = (ScrollView) findViewById(R.id.sv_signin);
+        emailPhoneEditText = (EditText) findViewById(R.id.emailPhoneEditText);
+        emailPhoneEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+//                    KeyboardUtil.hideKeyboard(DASHBOARD);
+//                    sv_signin.fullScroll(ScrollView.FOCUS_UP);
+                }
+            }
+        });
+
+        iv_user_image = (CircleImageView) findViewById(R.id.user_image);
+        iv_user_image.setOnClickListener(onClick);
+
+        fragment_profile_details = (LinearLayout) findViewById(R.id.fragment_profile_details);
+        fragment_signin = (View) findViewById(R.id.fragment_signin);
+        fragment_register = (View) findViewById(R.id.fragment_register);
+
+        signup_button = (Button) findViewById(R.id.signup_button);
+        signup_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HandyManWebServices.makeRegistrationRequest();
+            }
+        });
+
+        TextView register = (TextView) findViewById(R.id.register_link);
+        register.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSignup();
+            }
+        });
+
+        TextView exit_registration = (TextView) findViewById(R.id.exit_registration);
+        exit_registration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchSignin();
+            }
+        });
+
+        tv_edit_details = (TextView) findViewById(R.id.tv_edit_details);
+        tv_edit_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ll_skills_list = (LinearLayout) findViewById(R.id.ll_skills_list);
+
+        initProfileSkills();
+
+        ImagePicker.setMinQuality(250, 250);
+    }
+
+    private void initFavoriteFragment() {
+        ll_favorites = (LinearLayout) findViewById(R.id.ll_favorite);
+    }
+
+    ArrayAdapter<String> adapter;
+
+    private void initSearchFragment() {
 
         ll_map = (LinearLayout) findViewById(R.id.ll_map);
         findHMWrapper = (TextInputLayout) findViewById(R.id.findHMWrapper);
         tv_dropdown_handyman = (ImageView) findViewById(R.id.tv_dropdown_handyman);
         tv_dropdown_handyman.setOnClickListener(onClick);
-
-        ll_favorites = (LinearLayout) findViewById(R.id.ll_favorite);
-
         ll_search_bg = (LinearLayout) findViewById(R.id.ll_search_bg);
+        ll_dashboard_menu = (LinearLayout) findViewById(R.id.ll_dashboard_menu);
 
-        ll_profile = (LinearLayout) findViewById(R.id.ll_profile);
-        initProfile();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ll_search_bg.setVisibility(View.VISIBLE);
+                ll_dashboard_menu.setVisibility(View.VISIBLE);
+            }
+        });
 
-        ll_about = (LinearLayout) findViewById(R.id.ll_about);
-        TextView aboutVersion = (TextView) findViewById(R.id.about_version);
-        aboutVersion.setText(aboutVersion.getText() + getSoftwareVersion());
-
-
-        //FRAGMENT LISTS
-        ll_skills_list = (LinearLayout) findViewById(R.id.ll_skills_list);
-
-//        System.out.println("++++++++++++++++++++++++++++++++ Handymen: " + handymen.size());
-//        System.out.println("++++++++++++++++++++++++++++++++ Handymen Icons: " + handymen.size());
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, handymen);
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, StringManagerUtil.handymen);
         findHMEditText = (MultiAutoCompleteTextView) findViewById(R.id.findHMEditText);
         findHMEditText.setFocusableInTouchMode(false);
-        findHMEditText.setAdapter(adapter);
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                findHMEditText.setAdapter(adapter);
+                menu_more();
+            }
+        });
+
         findHMEditText.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
         findHMEditText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -170,6 +274,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
                 getMyLocation();
             }
         });
+
         findHMEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -190,7 +295,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-
         findHMEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,21 +303,57 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-        ImagePicker.setMinQuality(250, 250);
     }
 
-    void initProfile() {
-        tv_edit_details = (TextView) findViewById(R.id.tv_edit_details);
-        tv_edit_details.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchSignup();
-            }
-        });
+    private void initMenuBar() {
+        search = (Button) findViewById(R.id.search);
+        search.setOnClickListener(onClick);
+
+        favorites = (Button) findViewById(R.id.favorites);
+        favorites.setOnClickListener(onClick);
+
+        profile = (Button) findViewById(R.id.profile);
+        profile.setOnClickListener(onClick);
+
+        about = (Button) findViewById(R.id.about);
+        about.setOnClickListener(onClick);
     }
 
-    //
-    View profile_item;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = ImagePicker.getImageFromResult(this, requestCode, resultCode, data);
+
+        if (bitmap != null) {
+//            processCameraImage(bitmap);
+            iv_user_image.setImageBitmap(bitmap);
+        }
+    }
+
+    private void processCameraImage(Bitmap photo) {
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byteArray = byteArrayOutputStream.toByteArray();
+
+        String image = Base64.encodeBytes(byteArray);
+    }
+
+    public void onPickImage(View view) {
+        // Click on image button
+        ImagePicker.pickImage(this, "Select your image:");
+    }
+
+    void launchSignin() {
+        fragment_profile_details.setVisibility(View.GONE);
+        fragment_signin.setVisibility(View.VISIBLE);
+        fragment_register.setVisibility(View.GONE);
+    }
+
+    void launchSignup() {
+        fragment_profile_details.setVisibility(View.GONE);
+        fragment_signin.setVisibility(View.GONE);
+        fragment_register.setVisibility(View.VISIBLE);
+    }
 
     void initProfileSkills() {
         Drawable icon = getResources().getDrawable(R.drawable.electrician);
@@ -267,8 +407,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         }
     }
 
-    View profileDetailsView = null;
-
     View.OnClickListener detailsClickListener = new View.OnClickListener() {
         @Override
         public void onClick(final View v) {
@@ -297,27 +435,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         findHMEditText.setText(string);
     }
 
-    private void initMenuBar() {
-        search = (Button) findViewById(R.id.search);
-        search.setOnClickListener(onClick);
-
-        favorites = (Button) findViewById(R.id.favorites);
-        favorites.setOnClickListener(onClick);
-
-        profile = (Button) findViewById(R.id.profile);
-        profile.setOnClickListener(onClick);
-
-        about = (Button) findViewById(R.id.about);
-        about.setOnClickListener(onClick);
-    }
-
-    void initMap() {
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
-
     View.OnClickListener onClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -344,7 +461,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
                     break;
 
                 case R.id.user_image:
-                    onPickImage(user_image);
+                    onPickImage(iv_user_image);
                     break;
 
                 case R.id.tv_dropdown_handyman:
@@ -358,7 +475,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 DASHBOARD);
         alertDialog.setCancelable(true);
-        alertDialog.setMessage("Do you want to exit HandyMan?");
+        alertDialog.setMessage("Do you want to exit " + getString(R.string.app_name));
 
         vibrator.vibrate(500);
 
@@ -387,11 +504,8 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     void menu_more() {
         popupMenu = new PopupMenu(this, findHMWrapper);
 //        popupMenu = new PopupMenu(DashBoardActivity.DASHBOARD, v);
-        int i = 0;
-        for (String origin : handymen) {
+        for (String origin : StringManagerUtil.handymen) {
             MenuItem menuItem = popupMenu.getMenu().add(origin);
-//            menuItem.setIcon(handymenIcon[i]);
-//            i++;
         }
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -408,23 +522,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
             }
         });
 
-        // +++ Force icons to show
-//        Object menuHelper;
-//        Class[] argTypes;
-//        try {
-//            Field fMenuHelper = PopupMenu.class.getDeclaredField("mPopup");
-//            fMenuHelper.setAccessible(true);
-//            menuHelper = fMenuHelper.get(popupMenu);
-//            argTypes = new Class[]
-//                    {boolean.class};
-//            menuHelper.getClass()
-//                    .getDeclaredMethod("setForceShowIcon", argTypes)
-//                    .invoke(menuHelper, true);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            popupMenu.show();
-//            return;
-//        }
         popupMenu.show();
     }
 
@@ -493,10 +590,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 7000, null);
     }
 
-    void launchSignup() {
-        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
-    }
-
     Button buffer;
 
     void search() {
@@ -505,7 +598,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         ll_favorites.setVisibility(View.GONE);
         ll_about.setVisibility(View.GONE);
         ll_profile.setVisibility(View.GONE);
-        search.setBackgroundResource(R.color.hm_yellow);
+        search.setBackgroundResource(R.drawable.button_yellow);
     }
 
     void favorites() {
@@ -514,36 +607,36 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         ll_favorites.setVisibility(View.VISIBLE);
         ll_about.setVisibility(View.GONE);
         ll_profile.setVisibility(View.GONE);
-        favorites.setBackgroundResource(R.color.hm_yellow);
+        favorites.setBackgroundResource(R.drawable.button_yellow);
     }
 
     void about() {
+        KeyboardUtil.hideKeyboard(DASHBOARD);
         buffer = about;
         ll_map.setVisibility(View.GONE);
         ll_favorites.setVisibility(View.GONE);
         ll_about.setVisibility(View.VISIBLE);
         ll_profile.setVisibility(View.GONE);
-        about.setBackgroundResource(R.color.hm_yellow);
+        about.setBackgroundResource(R.drawable.button_yellow);
     }
 
     void profile() {
-
-//        startActivity(new Intent(DASHBOARD, RegisterActivity.class));
 
         ll_map.setVisibility(View.GONE);
         ll_favorites.setVisibility(View.GONE);
         ll_about.setVisibility(View.GONE);
         ll_profile.setVisibility(View.VISIBLE);
-        profile.setBackgroundResource(R.color.hm_yellow);
+        profile.setBackgroundResource(R.drawable.button_yellow);
     }
 
-    void aboutActivity() {
-        buffer = about;
-        about.setBackgroundResource(R.color.hm_yellow);
-        Intent k = new Intent(getApplicationContext(),
-                AboutActivity.class);
-        startActivity(k);
-    }
+
+//    void aboutActivity() {
+//        buffer = about;
+//        about.setBackgroundResource(R.color.hm_yellow);
+//        Intent k = new Intent(getApplicationContext(),
+//                AboutActivity.class);
+//        startActivity(k);
+//    }
 
 
     void clearHilite() {
@@ -582,7 +675,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
     }
 
-    boolean aboutClicked = false;
+//    boolean aboutClicked = false;
 
     @Override
     public void onBackPressed() {
@@ -783,7 +876,7 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
     boolean isNetworkEnabled = false;
 
     // flag for GPS status
-    boolean canGetLocation = false;
+//    boolean canGetLocation = false;
 
     //	Location location; // location
     double latitude; // latitude
@@ -801,4 +894,6 @@ public class DashBoardActivity extends FragmentActivity implements OnMapReadyCal
 
     Vibrator vibrator;
     Location location;
+
+
 }
